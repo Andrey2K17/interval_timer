@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.serialization)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -59,6 +61,14 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // Navigation
+    implementation(libs.navigation.common)
+    implementation(libs.navigation.compose)
+    implementation(libs.navigation.runtime.ktx)
+
+    // Serialization
+    implementation(libs.serialization.json)
 
     // Project Modules
     implementation(projects.data)
