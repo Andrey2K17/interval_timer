@@ -25,11 +25,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -38,6 +41,22 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
+
+    // Kotlin Coroutines
+    implementation(libs.coroutines.android)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // Networking - Retrofit & OkHttp
+    implementation(libs.okhttp.logging)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.retrofit)
+
+    // JSON Parsing
+    implementation(libs.gson)
 
     // Project Modules
     implementation(projects.domain)
