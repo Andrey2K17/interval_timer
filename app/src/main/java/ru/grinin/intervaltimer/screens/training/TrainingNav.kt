@@ -17,7 +17,7 @@ fun NavController.navigateToTraining(timer: TimerUI) {
     navigate(TrainingRoute(timer))
 }
 
-fun NavGraphBuilder.trainingScreen(navController: NavController) {
+fun NavGraphBuilder.trainingScreen() {
     composable<TrainingRoute>(
         typeMap = mapOf(
             typeOf<TimerUI>() to TimerNavType

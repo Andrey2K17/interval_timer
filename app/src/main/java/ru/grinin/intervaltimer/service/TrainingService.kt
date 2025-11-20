@@ -117,7 +117,7 @@ class TrainingService: LifecycleService() {
             channelName,
             NotificationManager.IMPORTANCE_LOW
         )
-        (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+        (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
             .createNotificationChannel(channel)
         return channelId
     }

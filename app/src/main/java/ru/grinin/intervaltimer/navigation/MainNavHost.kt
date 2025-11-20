@@ -20,6 +20,6 @@ fun MainNavHost(
         startDestination = LoadRoute,
     ) {
         loadGraph(navController)
-        trainingScreen(navController)
+        trainingScreen()
     }
 }
