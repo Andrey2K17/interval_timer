@@ -29,13 +29,10 @@ import ru.grinin.intervaltimer.entities.UIState
 fun <State, Event> CollectStateWithEvents(
     stateFlow: StateFlow<State>,
     eventsFlow: Flow<UIState<Event>>,
-    loader: @Composable () -> Unit = {
-        Loader(modifier = Modifier.size(64.dp), color = Color.Black)
-    },
     onSuccessEvent: (Event) -> Unit,
     onDismiss: () -> Unit = {},
     onConfirm: (DialogInfo) -> Unit = {},
-    onSuccess: @Composable (State) -> Unit,
+    onSuccess: @Composable (State, Boolean) -> Unit,
 ) {
     var dialogErrorInfo by remember { mutableStateOf(DialogInfo.defaultDialog) }
     var eventLoading by remember { mutableStateOf(false) }
@@ -49,13 +46,7 @@ fun <State, Event> CollectStateWithEvents(
         }
     }
 
-
-
-    if (eventLoading) {
-        loader()
-    } else {
-        onSuccess(state)
-    }
+    onSuccess(state, eventLoading)
 
     DialogHandler(
         dialogErrorInfo = dialogErrorInfo,

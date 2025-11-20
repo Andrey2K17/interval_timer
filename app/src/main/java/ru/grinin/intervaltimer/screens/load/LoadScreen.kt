@@ -2,12 +2,14 @@ package ru.grinin.intervaltimer.screens.load
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,12 +31,13 @@ fun LoadRoute(
         stateFlow = viewModel.id,
         eventsFlow = viewModel.training,
         onSuccessEvent = { navToTraining(it) },
-        onSuccess = {
+        onSuccess = { state, isLoading ->
             LoadScreen(
                 modifier = modifier,
-                id = it,
+                id = state,
                 onSetId = viewModel::setId,
                 onClick = viewModel::getTraining,
+                isLoading = isLoading,
             )
         }
     )
@@ -46,6 +49,7 @@ fun LoadScreen(
     id: String,
     onSetId: (String) -> Unit,
     onClick: () -> Unit,
+    isLoading: Boolean = false,
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -61,11 +65,17 @@ fun LoadScreen(
 
         Button(
             modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(vertical = 12.dp, horizontal = 16.dp),
+            enabled = !isLoading,
             onClick = onClick,
         ) {
-            Text(
-                text = stringResource(R.string.load),
-            )
+            if(isLoading) {
+                CircularProgressIndicator(modifier = Modifier.size(20.dp))
+            } else {
+                Text(
+                    text = stringResource(R.string.load),
+                )
+            }
         }
     }
 }
