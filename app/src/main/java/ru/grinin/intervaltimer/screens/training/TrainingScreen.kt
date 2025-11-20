@@ -11,9 +11,9 @@ fun TrainingRoute(
     viewModel: TrainingViewModel = hiltViewModel()
 ) {
 
-    val training = viewModel.training
+    val timer = viewModel.timer
 
-    Log.d("test123", "TrainingRoute: $training")
+    Log.d("test123", "TrainingRoute: $timer")
 
     TrainingScreen(modifier = modifier)
 }

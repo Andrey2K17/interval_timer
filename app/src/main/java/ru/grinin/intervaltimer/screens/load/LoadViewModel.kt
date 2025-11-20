@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.grinin.domain.usecases.GetTrainingUseCase
-import ru.grinin.intervaltimer.entities.TrainingUI
+import ru.grinin.intervaltimer.entities.TimerUI
 import ru.grinin.intervaltimer.entities.UIState
 import ru.grinin.intervaltimer.entities.toUI
 import ru.grinin.intervaltimer.mappers.mapToUIState
@@ -23,7 +23,7 @@ class LoadViewModel @Inject constructor(
     private val getTrainingUseCase: GetTrainingUseCase,
 ): ViewModel() {
 
-    private val _training: MutableSharedFlow<UIState<TrainingUI>> = MutableSharedFlow()
+    private val _training: MutableSharedFlow<UIState<TimerUI>> = MutableSharedFlow()
     val training = _training.asSharedFlow()
 
     private val _id: MutableStateFlow<String> = MutableStateFlow("")

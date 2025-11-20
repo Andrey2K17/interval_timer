@@ -16,14 +16,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.grinin.intervaltimer.R
-import ru.grinin.intervaltimer.entities.TrainingUI
+import ru.grinin.intervaltimer.entities.TimerUI
 import ru.grinin.intervaltimer.ui.components.CollectStateWithEvents
 
 @Composable
 fun LoadRoute(
     modifier: Modifier = Modifier,
     viewModel: LoadViewModel = hiltViewModel(),
-    navToTraining: (TrainingUI) -> Unit,
+    navToTraining: (TimerUI) -> Unit,
 ) {
     CollectStateWithEvents(
         stateFlow = viewModel.id,

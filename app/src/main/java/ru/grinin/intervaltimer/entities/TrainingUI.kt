@@ -7,32 +7,34 @@ import androidx.navigation.NavType
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import ru.grinin.domain.entities.TrainingDomain
+import ru.grinin.domain.entities.TimerDomain
 
 @Serializable
 @Parcelize
-data class TrainingUI(
-    val id: Int,
+data class TimerUI(
+    val timerId: Int,
+    val title: String,
+    val totalTime: Int,
     val intervals: List<IntervalUI>
 ): Parcelable
 
-fun TrainingDomain.toUI() = TrainingUI(id, intervals.map { it.toUI() })
+fun TimerDomain.toUI() = TimerUI(timerId, title, totalTime, intervals.map { it.toUI() })
 
-val TrainingNavType = object : NavType<TrainingUI>(isNullableAllowed = false) {
+val TimerNavType = object : NavType<TimerUI>(isNullableAllowed = false) {
     override fun get(bundle: Bundle, key: String) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            bundle.getParcelable(key, TrainingUI::class.java)
+            bundle.getParcelable(key, TimerUI::class.java)
         } else {
             @Suppress("DEPRECATION")
             bundle.getParcelable(key)
         }
 
-    override fun parseValue(value: String): TrainingUI = Json.decodeFromString(value)
+    override fun parseValue(value: String): TimerUI = Json.decodeFromString(value)
 
-    override fun put(bundle: Bundle, key: String, value: TrainingUI) =
+    override fun put(bundle: Bundle, key: String, value: TimerUI) =
         bundle.putParcelable(key, value)
 
-    override fun serializeAsValue(value: TrainingUI): String = Json.encodeToString(value)
+    override fun serializeAsValue(value: TimerUI): String = Json.encodeToString(value)
 
-    override val name: String = "trainingValue"
+    override val name: String = "timerValue"
 }

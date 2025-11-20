@@ -10,7 +10,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.grinin.data.api.TrainingApi
-import ru.grinin.data.repositories.FakeTrainingRepository
 import ru.grinin.data.repositories.TrainingRepositoryImpl
 import ru.grinin.domain.repositories.TrainingRepository
 import java.util.concurrent.TimeUnit
@@ -63,8 +62,6 @@ object DataModule {
     fun provideTrainingRepository(
         api: TrainingApi
     ): TrainingRepository {
-        //Use fake repository, api not work
-        return FakeTrainingRepository()
-        //return TrainingRepositoryImpl(api)
+        return TrainingRepositoryImpl(api)
     }
 }

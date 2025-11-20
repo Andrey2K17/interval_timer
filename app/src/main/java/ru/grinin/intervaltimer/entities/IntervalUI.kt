@@ -7,6 +7,6 @@ import ru.grinin.domain.entities.IntervalDomain
 
 @Serializable
 @Parcelize
-data class IntervalUI(val duration: Int): Parcelable
+data class IntervalUI(val title: String, val time: Int): Parcelable
 
-fun IntervalDomain.toUI() = IntervalUI(duration)
+fun IntervalDomain.toUI() = IntervalUI(title, time)
