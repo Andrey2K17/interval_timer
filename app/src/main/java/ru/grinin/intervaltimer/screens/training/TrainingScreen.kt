@@ -1,9 +1,5 @@
 package ru.grinin.intervaltimer.screens.training
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,22 +22,17 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.grinin.intervaltimer.R
-import ru.grinin.intervaltimer.service.TrainingService
 
 @Composable
 fun TrainingRoute(
@@ -49,36 +40,6 @@ fun TrainingRoute(
     viewModel: TrainingViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    val context = LocalContext.current
-
-    val broadcastReceiver = remember {
-        object : BroadcastReceiver() {
-            override fun onReceive(ctx: Context?, intent: Intent?) {
-                if (intent?.action == TrainingService.ACTION_UPDATE) {
-                    val index = intent.getIntExtra("intervalIndex", 0)
-                    val timeLeft = intent.getIntExtra("timeLeft", 0)
-                    val finished = intent.getBooleanExtra("finished", false)
-
-                    viewModel.updateProgress(index, timeLeft, finished)
-                }
-            }
-        }
-    }
-
-    DisposableEffect(Unit) {
-        val filter = IntentFilter(TrainingService.ACTION_UPDATE)
-        ContextCompat.registerReceiver(
-            context,
-            broadcastReceiver,
-            filter,
-            ContextCompat.RECEIVER_NOT_EXPORTED
-        )
-
-        onDispose {
-            context.unregisterReceiver(broadcastReceiver)
-        }
-    }
 
     TrainingScreen(
         modifier = modifier,

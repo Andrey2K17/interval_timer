@@ -3,10 +3,12 @@ package ru.grinin.intervaltimer.screens.training
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import ru.grinin.intervaltimer.entities.TimerUI
 import ru.grinin.intervaltimer.service.TrainingService
 import javax.inject.Inject
@@ -21,6 +23,10 @@ class TrainingViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(TrainingUiState(timer))
     val uiState: StateFlow<TrainingUiState> = _uiState
 
+    init {
+        observeProgress()
+    }
+
     fun stopTraining() {
         _uiState.update { it.copy(isRunning = false) }
         TrainingService.stop(getApplication())
@@ -31,13 +37,21 @@ class TrainingViewModel @Inject constructor(
         TrainingService.start(getApplication(), timer)
     }
 
-    fun updateProgress(index: Int, timeLeft: Int, isFinished: Boolean) {
+    private fun observeProgress() {
+        viewModelScope.launch {
+            TrainingProgressBus.updates.collect { update ->
+                updateProgress(update)
+            }
+        }
+    }
+
+    private fun updateProgress(update: TrainingUpdate) {
         _uiState.update {
             it.copy(
-                currentIntervalIndex = index,
-                currentTimeLeft = timeLeft,
-                isFinished = isFinished,
-                isRunning = !isFinished
+                currentIntervalIndex = update.intervalIndex,
+                currentTimeLeft = update.timeLeft,
+                isFinished = update.finished,
+                isRunning = !update.finished
             )
         }
     }

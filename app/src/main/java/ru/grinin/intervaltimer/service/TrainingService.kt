@@ -18,6 +18,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.grinin.intervaltimer.R
 import ru.grinin.intervaltimer.entities.TimerUI
+import ru.grinin.intervaltimer.screens.training.TrainingProgressBus
+import ru.grinin.intervaltimer.screens.training.TrainingUpdate
 
 @AndroidEntryPoint
 class TrainingService: LifecycleService() {
@@ -73,13 +75,14 @@ class TrainingService: LifecycleService() {
         }
     }
 
-    private fun sendUpdate(isFinished: Boolean = false) {
-        val updateIntent = Intent(ACTION_UPDATE).apply {
-            putExtra("intervalIndex", currentIntervalIndex)
-            putExtra("timeLeft", currentTimeLeft)
-            putExtra("finished", isFinished)
-        }
-        sendBroadcast(updateIntent)
+    private suspend fun sendUpdate(isFinished: Boolean = false) {
+        TrainingProgressBus.send(
+            TrainingUpdate(
+                intervalIndex = currentIntervalIndex,
+                timeLeft = currentTimeLeft,
+                finished = isFinished
+            )
+        )
     }
 
     private suspend fun beep(times: Int) {
