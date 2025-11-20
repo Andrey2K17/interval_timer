@@ -3,4 +3,10 @@
     <string name="load">Load</string>
     <string name="general_error_title">Error</string>
     <string name="general_confirm">Confirm</string>
+    <string name="timer">Timer</string>
+    <string name="map">Map</string>
+    <string name="interval_training">Interval Training</string>
+    <string name="training_started">Training started</string>
+    <string name="notification_permission_granted">Notification permission granted</string>
+    <string name="permission_not_granted_notifications_will_not_be_shown">Permission not granted. Notifications will not be shown.</string>
 </resources>

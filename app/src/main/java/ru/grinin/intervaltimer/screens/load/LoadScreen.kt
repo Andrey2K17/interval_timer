@@ -52,7 +52,9 @@ fun LoadScreen(
     isLoading: Boolean = false,
 ) {
     Column(
-        modifier = modifier.fillMaxSize().padding(16.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
     ) {
         OutlinedTextField(
@@ -66,7 +68,7 @@ fun LoadScreen(
         Button(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(vertical = 12.dp, horizontal = 16.dp),
-            enabled = !isLoading,
+            enabled = !isLoading && id.isNotBlank(),
             onClick = onClick,
         ) {
             if(isLoading) {

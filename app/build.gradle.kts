@@ -70,6 +70,8 @@ dependencies {
     // Serialization
     implementation(libs.serialization.json)
 
+    implementation(libs.lifecycle.service)
+
     // Project Modules
     implementation(projects.data)
     implementation(projects.domain)
