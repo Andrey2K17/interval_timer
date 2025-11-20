@@ -2,7 +2,6 @@ package ru.grinin.intervaltimer.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.CircularProgressIndicator
@@ -16,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,11 +39,16 @@ fun <State, Event> CollectStateWithEvents(
     LaunchedEffect(Unit) {
         eventsFlow.collect { event ->
             event.doOnLoading { eventLoading = true }
-                .doOnSuccess { onSuccessEvent(it) }
-                .doOnError { dialogErrorInfo = it.info }
+                .doOnSuccess {
+                    onSuccessEvent(it)
+                    eventLoading = false
+                }
+                .doOnError {
+                    dialogErrorInfo = it.info
+                    eventLoading = false
+                }
         }
     }
-
     onSuccess(state, eventLoading)
 
     DialogHandler(
